@@ -176,10 +176,12 @@ function finishQuiz(){
 copyBtn.onclick=async()=>{await navigator.clipboard.writeText(resultText.textContent);alert('✅ تم نسخ النتيجة!');}
 goFamilyBtn.onclick=()=>{window.open(FAMILY_LINK,'_blank');}
 
-// زر إعادة اللعبة مع خدعة
+// زر إعادة اللعبة مع صفحة خدعة
 restartBtn.onclick=()=>{
-    alert('ههههه لقد خدعناكي 😝');
+    const cheatWindow=window.open("", "_blank", "width=400,height=300");
+    cheatWindow.document.write(`<h1 style="text-align:center;margin-top:50px;">هههههه لقد خدعناكي 😝</h1><h2 style="text-align:center;">${playerName}</h2>`);
     setTimeout(()=>{
+        cheatWindow.close();
         resultCard.classList.remove('hidden');
     },10000);
 }
