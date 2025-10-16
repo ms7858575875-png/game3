@@ -15,51 +15,24 @@ background-size:400% 400%;
 animation: gradientBG 10s ease infinite;
 display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;
 }
-@keyframes gradientBG {
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-.card{
-background:var(--card);padding:25px 30px;border-radius:22px;
-box-shadow:0 12px 40px rgba(0,0,0,0.15);
-width:320px;text-align:center;transition:all 0.3s ease;
-}
-button{
-padding:12px 18px;border:none;border-radius:12px;
-font-weight:700;cursor:pointer;margin-top:12px;
-background:var(--accent);color:white;transition:0.3s;
-}
+@keyframes gradientBG {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+.card{background:var(--card);padding:25px 30px;border-radius:22px;box-shadow:0 12px 40px rgba(0,0,0,0.15);width:320px;text-align:center;transition:all 0.3s ease;}
+button{padding:12px 18px;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:12px;background:var(--accent);color:white;transition:0.3s;}
 button:hover{transform:scale(1.05);opacity:0.9;}
 .hidden{display:none;}
 .options{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
-.opt{
-padding:12px;border-radius:12px;background:var(--accent2);
-cursor:pointer;border:1px solid #f2f2f2;transition:all 0.2s ease;font-weight:600;
-}
+.opt{padding:12px;border-radius:12px;background:var(--accent2);cursor:pointer;border:1px solid #f2f2f2;transition:all 0.2s ease;font-weight:600;}
 .opt:hover{background:var(--accent);color:#fff;}
 .timer{font-weight:800;color:var(--accent);margin-top:10px;height:20px;}
 .timerBar{height:12px;background:#ff6fa3;border-radius:6px;margin-top:6px;transition:width 1s linear;}
 .feedback{margin-top:12px;font-weight:700;font-size:18px;}
-.resultCard h2{
-font-size:26px;
-background: linear-gradient(45deg, #ff6fa3, #ff85c1, #ffd9ec);
--webkit-background-clip:text;-webkit-text-fill-color:transparent;
-animation: glow 2s ease-in-out infinite alternate;
-}
-@keyframes glow{
-0%{text-shadow:2px 2px 6px rgba(255,111,163,0.5);}
-50%{text-shadow:3px 3px 12px rgba(255,111,163,0.8);}
-100%{text-shadow:4px 4px 18px rgba(255,111,163,1);}
-}
+.resultCard h2{font-size:26px;background: linear-gradient(45deg, #ff6fa3, #ff85c1, #ffd9ec);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation: glow 2s ease-in-out infinite alternate;}
+@keyframes glow{0%{text-shadow:2px 2px 6px rgba(255,111,163,0.5);}50%{text-shadow:3px 3px 12px rgba(255,111,163,0.8);}100%{text-shadow:4px 4px 18px rgba(255,111,163,1);}}
 .resultCard p{font-size:20px;font-weight:700;color:#ff6fa3;}
 .resultBtn{padding:10px 18px;font-weight:700;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(45deg,#ff6fa3,#ff85c1,#ffd9ec);color:#fff;box-shadow:0 4px 10px rgba(255,111,163,0.4);}
 .resultBtn:hover{transform:scale(1.05);}
 .heart{color:var(--heart);}
-input{
-width:85%;padding:10px;margin:6px 0;border:none;border-radius:12px;
-font-size:15px;color:#2b2b2b;background:rgba(255,111,163,0.15);
-}
+input{width:85%;padding:10px;margin:6px 0;border:none;border-radius:12px;font-size:15px;color:#2b2b2b;background:rgba(255,111,163,0.15);}
 input::placeholder{color:#2b2b2b;}
 </style>
 </head>
@@ -131,15 +104,6 @@ const QUESTIONS=[
 {q:"أي من هذه الأشجار تنتج أكبر كمية أكسجين؟",opts:["الشجرة الزيتية","البلوط","الصنوبر","النخيل"],a:2}
 ];
 
-function speak(text,pitch=1.8,rate=1.1){
-const msg=new SpeechSynthesisUtterance(text);
-msg.lang='ar-SA';
-msg.pitch=pitch;
-msg.rate=rate;
-speechSynthesis.cancel();
-speechSynthesis.speak(msg);
-}
-
 startBtn.onclick=()=>{
 const name=nameInput.value.trim();
 const code=codeInput.value.trim();
@@ -148,9 +112,8 @@ if(code!==GAME_CODE){alert('الرمز غير صحيح');return;}
 playerName=name;
 welcomeCard.classList.add('hidden');
 messageCard.classList.remove('hidden');
-welcomeMsg.textContent=`أهلاً بكي ${name} في عائلة نعومتك 💖`;
-speak(`أهلاً بكي ${name} في عائلة نعومتك`,1.8,1.1);
-setTimeout(()=>{messageCard.classList.add('hidden');startQuiz();},4000);
+welcomeMsg.textContent=`أهلاً بك ${name} في عائلة نعومتك 💖`;
+setTimeout(()=>{messageCard.classList.add('hidden');startQuiz();},5000);
 }
 
 function startQuiz(){
@@ -188,8 +151,8 @@ questionArea.innerHTML=html;
 
 function selectOption(i){
 const q=QUESTIONS[currentQ];
-if(i===q.a){score+=10;feedback.textContent=`إجابة صحيحة ✅`;speak('إجابة صحيحة أحسنتِ!',2.2,1);}
-else{feedback.textContent=`إجابة خاطئة ❌`;speak('إجابة خاطئة ههههه',2.3,1.1);}
+if(i===q.a){score+=10;feedback.textContent=`إجابة صحيحة ✅`;}
+else{feedback.textContent=`إجابة خاطئة ❌`;}
 setTimeout(()=>{nextQuestion();},1500);
 }
 
@@ -204,16 +167,13 @@ quizCard.classList.add('hidden');
 resultCard.classList.remove('hidden');
 playerResultName.textContent=playerName;
 resultText.textContent=`لقد حصلت على ${score} من ${QUESTIONS.length*10} نقطة!`;
-speak('لقد خدعناكي 😆',2.4,1.1);
 }
 
 copyBtn.onclick=async()=>{await navigator.clipboard.writeText(resultText.textContent);alert('✅ تم نسخ النتيجة!');}
 goFamilyBtn.onclick=()=>{window.open(FAMILY_LINK,'_blank');}
-
 restartBtn.onclick=()=>{
 resultCard.classList.add('hidden');
 welcomeCard.classList.remove('hidden');
-speechSynthesis.cancel();
 }
 </script>
 </body>
