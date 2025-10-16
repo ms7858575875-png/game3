@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
@@ -27,10 +27,11 @@ button:hover{transform:scale(1.05);opacity:0.9;}
 .timerBar{height:12px;background:#ff6fa3;border-radius:6px;margin-top:6px;transition:width 1s linear;}
 .feedback{margin-top:12px;font-weight:700;font-size:18px;}
 .resultCard h2{font-size:26px;background: linear-gradient(45deg, #ff6fa3, #ff85c1, #ffd9ec);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation: glow 2s ease-in-out infinite alternate;}
-@keyframes glow{0%{text-shadow:2px 2px 6px rgba(255,111,163,0.5);}50%{text-shadow:3px 3px 12px rgba(255,111,163,0.8);}100%{text-shadow:4px 4px 18px rgba(255,111,163,1);}}
+@keyframes glow{0%{text-shadow:2px 2px 6px rgba(255,111,163,0.5);}50%{text-shadow:3px 3px 12px rgba(255,111,163,0.8);}100%{text-shadow:4px 4px 18px rgba(255,111,163,1);} }
 .resultCard p{font-size:20px;font-weight:700;color:#ff6fa3;}
 .resultBtn{padding:10px 18px;font-weight:700;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(45deg,#ff6fa3,#ff85c1,#ffd9ec);color:#fff;box-shadow:0 4px 10px rgba(255,111,163,0.4);}
 .resultBtn:hover{transform:scale(1.05);}
+.cheatCard{background:#fff0f8;padding:30px;border-radius:22px;box-shadow:0 12px 40px rgba(0,0,0,0.2);text-align:center;width:350px;margin-top:20px;}
 .heart{color:var(--heart);}
 input{width:85%;padding:10px;margin:6px 0;border:none;border-radius:12px;font-size:15px;color:#2b2b2b;background:rgba(255,111,163,0.15);}
 input::placeholder{color:#2b2b2b;}
@@ -67,17 +68,24 @@ input::placeholder{color:#2b2b2b;}
 </div>
 </div>
 
+<div class="card hidden cheatCard" id="cheatCard">
+<h1>هههههه لقد خدعناكي 😝</h1>
+<h2 id="cheatName"></h2>
+<p>سيتم العودة للنتائج بعد <span id="cheatTimer">10</span> ثوانٍ</p>
+</div>
+
 <script>
 const GAME_CODE='الحمدالله1';
 let codeUsed=false;
 const FAMILY_LINK='https://www.facebook.com/profile.php?id=61581366775114';
 
-let playerName='',currentQ=0,score=0,timeLeft=60,timerInterval;
+let playerName='',currentQ=0,score=0,timeLeft=60,timerInterval,cheatInterval;
 
 const welcomeCard=document.getElementById('welcomeCard');
 const messageCard=document.getElementById('messageCard');
 const quizCard=document.getElementById('quizCard');
 const resultCard=document.getElementById('resultCard');
+const cheatCard=document.getElementById('cheatCard');
 const nameInput=document.getElementById('nameInput');
 const codeInput=document.getElementById('codeInput');
 const startBtn=document.getElementById('startBtn');
@@ -91,6 +99,8 @@ const playerResultName=document.getElementById('playerResultName');
 const copyBtn=document.getElementById('copyBtn');
 const goFamilyBtn=document.getElementById('goFamilyBtn');
 const restartBtn=document.getElementById('restartBtn');
+const cheatName=document.getElementById('cheatName');
+const cheatTimer=document.getElementById('cheatTimer');
 
 const QUESTIONS=[
 {q:"ما هو الحديث الذي يقول: 'من صلى عليَّ صلاةً واحدةً صلّى الله عليه بها عشراً'؟",opts:["صحيح البخاري","صحيح مسلم","الترمذي","ابن ماجه"],a:1},
@@ -176,14 +186,23 @@ function finishQuiz(){
 copyBtn.onclick=async()=>{await navigator.clipboard.writeText(resultText.textContent);alert('✅ تم نسخ النتيجة!');}
 goFamilyBtn.onclick=()=>{window.open(FAMILY_LINK,'_blank');}
 
-// زر إعادة اللعبة مع صفحة خدعة
+// زر إعادة اللعبة مع خدعة داخل الصفحة
 restartBtn.onclick=()=>{
-    const cheatWindow=window.open("", "_blank", "width=400,height=300");
-    cheatWindow.document.write(`<h1 style="text-align:center;margin-top:50px;">هههههه لقد خدعناكي 😝</h1><h2 style="text-align:center;">${playerName}</h2>`);
-    setTimeout(()=>{
-        cheatWindow.close();
-        resultCard.classList.remove('hidden');
-    },10000);
+    resultCard.classList.add('hidden');
+    cheatName.textContent=playerName;
+    cheatCard.classList.remove('hidden');
+    let t=10;
+    cheatTimer.textContent=t;
+    clearInterval(cheatInterval);
+    cheatInterval=setInterval(()=>{
+        t--;
+        cheatTimer.textContent=t;
+        if(t<=0){
+            clearInterval(cheatInterval);
+            cheatCard.classList.add('hidden');
+            resultCard.classList.remove('hidden');
+        }
+    },1000);
 }
 </script>
 </body>
